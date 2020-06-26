@@ -1,0 +1,41 @@
+#title {
+  justify-content: flex-start;
+}
+#nav div {
+  text-align: left;
+  display: flex;
+}
+#navlinks div {
+  display: flex;
+}
+#navlinks {
+  display: flex;
+  padding-top: 2rem;
+}
+@media (min-width: 400px) {
+  #nav {
+    flex-direction: column;
+  }
+  #navlinks {
+    flex-direction: column;
+  }
+}
+@media (min-width: 550px) {
+  #nav {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  #navlinks {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+  #navlinks div {
+    margin-right: 2em;
+  }
+}
+#nav {
+  display: flex;
+}
+#nav a {
+  text-decoration: none;
+}

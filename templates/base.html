@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>My Fashion Palette</title>
+  <link rel="stylesheet" href="static/normalize.css">
+  <link rel="stylesheet" href="static/skeleton.css">
+  <link rel="stylesheet" href="static/main.css">
+</head>
+<body>
+  <div class="container">
+    <div id="title">
+      <div id="nav">
+        <img src="static/title.png" style="width:200px"/>
+        <div id="navlinks">
+          <div>
+            <a href="/">
+              Home
+            </a>
+          </div>
+          <div>
+            <a href="/wiki">
+              Wiki
+            </a>
+          </div>
+          {% if current_user.is_authenticated %}
+          <div>
+            <a href="/profile">
+              My Profile
+            </a>
+          </div>
+          <div>
+            <a href="/history">
+              History
+            </a>
+          </div>
+          <div>
+            <a href="/logout">
+              Logout
+            </a>
+          </div>
+          {% else %}
+          <div>
+            <a href="/login">
+              Login
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% block content %}
+      {% endblock %}
+    </div>
+  </body>

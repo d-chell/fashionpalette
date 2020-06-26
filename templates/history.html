@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+  <div class="four columns">
+    profile pic
+  </div>
+  <div class="eight columns">
+    more content
+  </div>
+</div>
+<div class="row">
+  <div class="four columns offset-by-four">
+    graph
+  </div>
+</div>
+<table class="u-full-width">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Color</th>
+      <th>Opinion</th>
+      <th>Comments</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in history_list %}
+    <tr>
+      <td>{{ item.date }}</td>
+      <td>{{ item.color }}</td>
+      <td>{{ item.opinion }}</td>
+      <td>{{ item.comments }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
