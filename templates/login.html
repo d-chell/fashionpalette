@@ -1,18 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-<form method="POST">
-  <div class="row">
-    <div class="six columns">
-      <label for="usernameid">Username</label>
+<div class="row">
+  <div class="six columns offset-by-three">
+  <form method="POST">
+        <label for="usernameid">Username</label>
         <input class="u-full-width" name="username" type="text" placeholder="your chosen username" id="usernameid"/>
-    </div>
-  </div>
-  <div class="row">
-    <div class="six columns">
-      <label for="passwordid">Password</label>
+        <label for="passwordid">Password</label>
         <input class="u-full-width" name="passwordname" type="password" placeholder="your chosen password" id="passwordid"/>
-    </div>
+  <div style="display: flex; justify-content: flex-end">
+    <input class="button-primary" type="submit" value="Submit">
   </div>
-  <input class="button-primary" type="submit" value="Submit">
-</form>
+  </form>
+</div>
+</div>
 {% endblock %}

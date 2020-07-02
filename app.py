@@ -2,6 +2,7 @@ import flask
 import flask_login
 from urllib.parse import urlparse, urljoin
 import db
+import bcrypt
 app = flask.Flask(__name__)
 app.secret_key = 'ee00d0998aikwdpoka--2-2-eeoddkkd'
 login_manager = flask_login.LoginManager()
@@ -34,24 +35,33 @@ def wiki():
 def myprofile():
     return flask.render_template("myprofile.html")
 
-@app.route('/history')
+@app.route('/history', methods=['GET', 'POST'])
 @flask_login.login_required
 def history():
-    coollist = [{"date": "today", "color": "blue", "opinion": "god", "comments": "dwdwd"}]
-    return flask.render_template("history.html", history_list=coollist)
+    if flask.request.method == 'POST':
+        date = flask.request.form["date"]
+        color = flask.request.form["color"]
+        opinion = flask.request.form["opinon"]
+        comments = flask.request.form["comments"]
+        db.create_log(flask_login.current_user.id, date, color, opinion, comments)
+    return flask.render_template("history.html", history_list=db.get_history(flask_login.current_user.id))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if flask.request.method == 'POST':
         user = flask.request.form["username"]
-        passw = flask.request.form["passwordname"]
+        passw = flask.request.form["passwordname"].encode('utf-8')
         try:
             uid = db.get_uid(user)
         except:
-            return("Invalid username or password.")
+            passwhash = bcrypt.hashpw(passw, bcrypt.gensalt())
+            db.create_user(user, passwhash)
+            uid = db.get_uid(user)
+        print(uid)
         user_object = load_user(uid)
-        if not db.loginauth(uid, passw):
-            return("Invalid username or password.")
+        print(user_object)
+        if not db.login_auth(uid, passw):
+            return("Invalid password.")
         flask_login.login_user(user_object)
         flask.flash('Logged in successfully!')
         next = flask.request.args.get('next')
@@ -69,6 +79,5 @@ def logout():
     flask_login.logout_user()
     return flask.redirect(flask.url_for('home'))
 
-db.reset()
-db.test_db()
+# db.reset()
 app.run(debug=True)

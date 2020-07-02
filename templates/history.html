@@ -1,36 +1,98 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="row">
-  <div class="four columns">
-    profile pic
+  <form method="POST">
+    <div class="two columns">
+      <input class="u-full-width" name="date" type="date"/>
+    </div>
+    <div class="two columns">
+      <input class="u-full-width" name="color" type="number" placeholder="color"/>
+    </div>
+    <div class="two columns">
+      <input class="u-full-width" name="opinon" type="number" placeholder="opinion"/>
+    </div>
+    <div class="two columns">
+      <input class="u-full-width" name="comments" type="text" placeholder="comments"/>
+    </div>
+    <input class="button-primary" type="submit" value="Submit">
+  </form>
+  <div class="row">
+    <div class="eight columns offset-by-two">
+      <canvas id="happyOverTime" height="200px"></canvas>
+    </div>
   </div>
-  <div class="eight columns">
-    more content
-  </div>
-</div>
-<div class="row">
-  <div class="four columns offset-by-four">
-    graph
-  </div>
-</div>
-<table class="u-full-width">
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Color</th>
-      <th>Opinion</th>
-      <th>Comments</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for item in history_list %}
-    <tr>
-      <td>{{ item.date }}</td>
-      <td>{{ item.color }}</td>
-      <td>{{ item.opinion }}</td>
-      <td>{{ item.comments }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% endblock %}
+  <table class="u-full-width">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Color</th>
+        <th>Opinion</th>
+        <th>Comments</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in history_list %}
+      <tr>
+        <td>{{ item[1] }}</td>
+        <td>{{ item[2] }}</td>
+        <td>{{ item[3] }}</td>
+        <td>{{ item[4] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+<script src="/static/chart.js"></script>
+  <script>
+    var config = {
+      type: 'line',
+      data: {
+        labels: [{% for item in history_list %}'{{ item[1] }}'{{ "," if not loop.last }}{% endfor %}],
+        datasets: [
+        {
+          label: 'Satisfaction',
+          backgroundColor: "#000",
+          borderColor: "#000",
+
+          data: [
+          {% for item in history_list %}
+          {{ item[3] }} {{ "," if not loop.last }}
+          {% endfor %}
+          ],
+          fill: false,
+        }
+        ]
+      },
+      options: {
+        responsive: true,
+        elements : {
+          line: {
+            tension: 0
+          }
+        },
+        scales: {
+          xAxes: [{
+            scaleLabel: {
+              labelString: 'Time'
+            }
+          }],
+          yAxes: [{
+            scaleLabel: {
+              labelString: 'Score'
+            },
+            ticks: {
+              beginAtZero: true,
+              maxTicksLimit: 5,
+              stepSize: 1
+            }
+          }]
+        }
+      }
+    };
+
+    window.onload = function() {
+      var ctx = document.getElementById('happyOverTime').getContext('2d');
+      window.myLine = new Chart(ctx, config);
+    };
+
+  </script>
+  {% endblock %}

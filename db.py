@@ -25,7 +25,7 @@ def execute(cmd, values=None, one=False):
             return cur.fetchall()
 
 ##############
-# META FUNCS #
+# USER FUNCS #
 ##############
 
 class User(UserMixin):
@@ -43,21 +43,32 @@ def get_uid(username):
 def find_user(uid):
     user_data = execute("SELECT * FROM users WHERE id=?", (uid,))
     print(user_data)
-    return User(uid, "poopturd")
+    if not user_data:
+        return User(uid, "unreal")
+    return User(uid, user_data[0][1])
 
-def loginauth(uid, password):
-    realpassword = execute("SELECT password FROM users WHERE id=?", (uid,))[0][0]
-    if password == realpassword:
-        return True
-    return False
+def login_auth(uid, password):
+    passwhash = execute("SELECT password FROM users WHERE id=?", (uid,))[0][0]
+    print(passwhash, password)
+    return bcrypt.checkpw(password, passwhash)
 
-def test_db():
+def create_user(username, password):
     execute("INSERT INTO users (username, password) \
-        VALUES ('dana', 'dope1')")
-    execute("INSERT INTO users (username, password) \
-        VALUES ('da', 'docwpe1')")
-    execute("INSERT INTO users (username, password) \
-        VALUES ('daddna', 'dow1')")
+        VALUES (?, ?)", (username, password))
+
+################
+# History Logs #
+################
+
+def create_log(uid, date, color, opinion, comments):
+    execute("INSERT INTO history (id, date, color, opinion, comments) \
+        VALUES (?, ?, ?, ?, ?)", (uid, date, color, opinion, comments))
+
+def get_history(uid):
+    logs = execute("SELECT * FROM history WHERE id=?", (uid,))
+    if not logs:
+        return [()]
+    return logs
 
 ##############
 # TIME FUNCS #
@@ -85,8 +96,9 @@ def reset():
             );""")
     execute("DROP TABLE IF EXISTS `history`;")
     execute("""CREATE TABLE `history` (
-                `time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                `id` INTEGER,
+                `date` TIMESTAMP,
                 `color` INTEGER,
-                `opinon` INTEGER,
+                `opinion` INTEGER,
                 `comments` VARCHAR(255)
             );""")
