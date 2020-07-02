@@ -70,6 +70,10 @@ def get_history(uid):
         return [()]
     return logs
 
+def delete_log(hid):
+    execute("DELETE FROM history WHERE hid=?", (hid,))
+    print(hid)
+
 ##############
 # TIME FUNCS #
 ##############
@@ -96,6 +100,7 @@ def reset():
             );""")
     execute("DROP TABLE IF EXISTS `history`;")
     execute("""CREATE TABLE `history` (
+                `hid` INTEGER PRIMARY KEY AUTOINCREMENT,
                 `id` INTEGER,
                 `date` TIMESTAMP,
                 `color` INTEGER,

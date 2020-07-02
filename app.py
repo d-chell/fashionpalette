@@ -44,6 +44,12 @@ def history():
         opinion = flask.request.form["opinon"]
         comments = flask.request.form["comments"]
         db.create_log(flask_login.current_user.id, date, color, opinion, comments)
+    else:
+        try:
+            hid = flask.request.args.get("delete")
+            db.delete_log(hid)
+        except Exception as e:
+            print(e)
     return flask.render_template("history.html", history_list=db.get_history(flask_login.current_user.id))
 
 @app.route('/login', methods=['GET', 'POST'])

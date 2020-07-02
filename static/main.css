@@ -5,7 +5,7 @@
  --primary-color:#ffcdd2;
  --secondary-color:#727578;
  --error-color:#d20962;
- --progress-bar-background:#727578;
+ --progress-bar-background:#726578;
  --progress-bar-fill:#151515;
  --code-bg-color:#e8eff2;
 }
@@ -19,25 +19,37 @@ body {
   background: var(--primary-color);
 }
 
+#nav {
+  display: flex;
+  background-color: #fff;
+  margin: 1.5rem 0 1.5rem 0;
+  border: 4px double pink;
+}
+
 .coolbody {
   background-color: var(--background-color);
   padding: 4rem 2rem 4rem 2rem;
+  border: 4px double pink;
 }
 
 #title {
   justify-content: flex-start;
 }
+
 #nav div {
   text-align: left;
   display: flex;
 }
+
 #navlinks div {
   display: flex;
 }
+
 #navlinks {
   display: flex;
   padding-top: 2rem;
 }
+
 @media (min-width: 400px) {
   #nav {
     flex-direction: column;
@@ -46,6 +58,7 @@ body {
     flex-direction: column;
   }
 }
+
 @media (min-width: 550px) {
   #nav {
     flex-direction: row;
@@ -59,10 +72,7 @@ body {
     margin-right: 2em;
   }
 }
-#nav {
-  display: flex;
-  background-color: var(--primary-color);
-}
+
 #nav a {
   text-decoration: none;
 }

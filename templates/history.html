@@ -3,19 +3,22 @@
 <div class="row">
   <form method="POST">
     <div class="two columns">
-      <input class="u-full-width" name="date" type="date"/>
+      <input class="u-full-width" required name="date" type="date"/>
     </div>
     <div class="two columns">
-      <input class="u-full-width" name="color" type="number" placeholder="color"/>
+      <input class="u-full-width" required name="color" type="color" placeholder="color"/>
     </div>
     <div class="two columns">
-      <input class="u-full-width" name="opinon" type="number" placeholder="opinion"/>
+      <input class="u-full-width" required name="opinon" type="number" placeholder="opinion"/>
+    </div>
+    <div class="four columns">
+      <textarea class="u-full-width" name="comments" placeholder="comments"></textarea>
     </div>
     <div class="two columns">
-      <input class="u-full-width" name="comments" type="text" placeholder="comments"/>
-    </div>
     <input class="button-primary" type="submit" value="Submit">
+    </div>
   </form>
+  {% if history_list[0] %}
   <div class="row">
     <div class="eight columns offset-by-two">
       <canvas id="happyOverTime" height="200px"></canvas>
@@ -30,32 +33,36 @@
         <th>Comments</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="historytable">
       {% for item in history_list %}
       <tr>
-        <td>{{ item[1] }}</td>
         <td>{{ item[2] }}</td>
-        <td>{{ item[3] }}</td>
+        <td style="background-color: {{ item[3] }}">
+        </td>
         <td>{{ item[4] }}</td>
+        <td>{{ item[5] }}</td>
+        <td>
+          <a href="/history?delete={{ item[0] }}#historytable">Delete</a>
+        </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-<script src="/static/chart.js"></script>
+  <script src="/static/chart.js"></script>
   <script>
     var config = {
       type: 'line',
       data: {
-        labels: [{% for item in history_list %}'{{ item[1] }}'{{ "," if not loop.last }}{% endfor %}],
+        labels: [{% for item in history_list %}'{{ item[2] }}'{{ "," if not loop.last }}{% endfor %}],
         datasets: [
         {
           label: 'Satisfaction',
-          backgroundColor: "#000",
-          borderColor: "#000",
+          backgroundColor: "#ffcdd2",
+          borderColor: "#ffcdd2",
 
           data: [
           {% for item in history_list %}
-          {{ item[3] }} {{ "," if not loop.last }}
+          {{ item[4] }} {{ "," if not loop.last }}
           {% endfor %}
           ],
           fill: false,
@@ -95,4 +102,5 @@
     };
 
   </script>
+  {% endif %}
   {% endblock %}
