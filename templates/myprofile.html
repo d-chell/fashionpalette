@@ -1,11 +1,97 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="row">
-  <div class="four columns">
-    profile pic BEEEP
-  </div>
-  <div class="eight columns">
+  <div class="five columns">
     more content
   </div>
-</div>
+<div class="seven columns">
+<form method="POST">
+<div class="row">
+    <div class="six columns">
+      <label> Skin Tone
+        <select class="u-full-width formsizing" required name="skinwarmth">
+          <option value="3">Warm</option>
+          <option value="2">Neutral</option>
+          <option value="1">Cool</option>
+        </select>
+      </label>
+    </div>
+    <div class="six columns">
+      <label> Skin Color
+        <select class="u-full-width formsizing" required name="skintone">
+          <option value="5">Ebony</option>
+          <option value="4">Mocha</option>
+          <option value="3">Caramel</option>
+          <option value="2">Beige</option>
+          <option value="1">Ivory</option>
+        </select>
+      </label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="six columns">
+      <label> Eye Tone
+        <select class="u-full-width formsizing" required name="skinwarmth">
+          <option value="3">Warm</option>
+          <option value="2">Neutral</option>
+          <option value="1">Cool</option>
+        </select>
+      </label>
+    </div>
+    <div class="six columns">
+      <label> Eye Color
+        <select class="u-full-width formsizing" required name="eyecolor">
+          <option value="6">Black</option>
+          <option value="5">Brown</option>
+          <option value="4">Hazel</option>
+          <option value="3">Green</option>
+          <option value="2">Blue</option>
+          <option value="1">Grey</option>
+        </select>
+      </label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="four columns">
+      <label> Hair Tone
+        <select class="u-full-width formsizing" required name="skinwarmth">
+          <option value="3">Warm</option>
+          <option value="2">Neutral</option>
+          <option value="1">Cool</option>
+        </select>
+      </label>
+    </div>
+    <div class="four columns">
+      <label> Hair Shade
+        <select class="u-full-width formsizing" required name="skinwarmth">
+          <option value="3">Dark</option>
+          <option value="2">Medium</option>
+          <option value="1">Light</option>
+        </select>
+      </label>
+    </div>
+    <div class="four columns">
+      <label>Hair Color
+        <select class="u-full-width formsizing" required name="haircolor">
+          <option value="8">Black</option>
+          <option value="7">Brown</option>
+          <option value="6">Red</option>
+          <option value="5">Blonde</option>
+          <option value="5">Green</option>
+          <option value="5">Blue</option>
+          <option value="5">Purple</option>
+          <option value="4">Pink</option>
+          <option value="3">Yellow</option>
+          <option value="2">Rainbow</option>
+          <option value="1">White</option>
+        </select>
+      </label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="two columns">
+      <input class="button-primary" type="submit" value="Submit">
+    </div>
+  </div>
+</form>
 {% endblock %}

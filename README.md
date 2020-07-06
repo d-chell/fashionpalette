@@ -6,4 +6,6 @@ Fashion Palette helps people identify their natural color palette and track what
 ### Screenshots
 ![Fashion palette home](static/screenshothome.png)
 
+---
+
 ![Fashion palette history](static/screenshothistory.png)
