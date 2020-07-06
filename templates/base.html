@@ -6,52 +6,48 @@
   <link rel="stylesheet" href="static/normalize.css">
   <link rel="stylesheet" href="static/skeleton.css">
   <link rel="stylesheet" href="static/main.css">
-<link href="https://fonts.googleapis.com/css2?family=Sanchez&display=swap" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Sanchez&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
-    <div id="title">
-      <div id="nav">
-        <img src="static/title.png" style="width:200px"/>
-        <div id="navlinks">
-          <div>
-            <a href="/">
-              Home
-            </a>
-          </div>
-          <div>
-            <a href="/wiki">
-              Wiki
-            </a>
-          </div>
-          {% if current_user.is_authenticated %}
-          <div>
-            <a href="/profile">
-              My Profile
-            </a>
-          </div>
-          <div>
-            <a href="/history">
-              History
-            </a>
-          </div>
-          <div>
-            <a href="/logout">
-              Logout
-            </a>
-          </div>
-          {% else %}
-          <div>
-            <a href="/login">
-              Login
-            </a>
-          </div>
-          {% endif %}
-        </div>
+    <div id="nav">
+      <div id="title">
+        <a href="/"><h1 style="font-family: 'Leckerli One', cursive; font-size: 3rem;">My Fashion Palette</h1></a>
       </div>
-      <div class="coolbody">
+      <div id="navlinks">
+        <div>
+          <a href="/wiki">
+            Wiki
+          </a>
+        </div>
+        {% if current_user.is_authenticated %}
+        <div>
+          <a href="/profile">
+            Profile
+          </a>
+        </div>
+        <div>
+          <a href="/history">
+            History
+          </a>
+        </div>
+        <div>
+          <a href="/logout">
+            Logout
+          </a>
+        </div>
+        {% else %}
+        <div>
+          <a href="/login">
+            Login
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="coolbody">
       {% block content %}
       {% endblock %}
     </div>
-    </div>
-  </body>
+  </div>
+</body>

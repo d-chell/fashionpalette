@@ -2,17 +2,28 @@
 {% block content %}
 <div class="row">
   <form method="POST">
-    <div class="two columns">
-      <input class="u-full-width" required name="date" type="date"/>
+    <div class="three columns">
+      <input class="u-full-width formsizing" required name="date" type="date"/>
     </div>
     <div class="two columns">
-      <input class="u-full-width" required name="color" type="color" placeholder="color"/>
+      <input class="u-full-width formsizing" required name="color" type="color" placeholder="color"/>
     </div>
     <div class="two columns">
-      <input class="u-full-width" required name="opinon" type="number" placeholder="opinion"/>
+      <select class="u-full-width formsizing" required name="opinion" placeholder="opinion">
+        <option value="10">perfect</option>
+        <option value="9">excellent</option>
+        <option value="8">great</option>
+        <option value="7">good</option>
+        <option value="6">fine</option>
+        <option value="5">okay</option>
+        <option value="4">blah</option>
+        <option value="3">poor</option>
+        <option value="2">bad</option>
+        <option value="1">awful</option>
+      </select>
     </div>
-    <div class="four columns">
-      <textarea class="u-full-width" name="comments" placeholder="comments"></textarea>
+    <div class="three columns">
+      <textarea class="u-full-width formsizing" name="comments" placeholder="comments"></textarea>
     </div>
     <div class="two columns">
     <input class="button-primary" type="submit" value="Submit">
@@ -40,7 +51,7 @@
         <td>{{ item[2] }}</td>
         <td style="background-color: {{ item[3] }}">
         </td>
-        <td>{{ item[4] }}</td>
+        <td>{{ item[4] }}/10</td>
         <td>{{ item[5] }}</td>
         <td>
           <a href="/history?delete={{ item[0] }}#historytable">Delete</a>
@@ -54,7 +65,7 @@
     var config = {
       type: 'line',
       data: {
-        labels: [{% for item in history_list %}'{{ item[2] }}'{{ "," if not loop.last }}{% endfor %}],
+        labels: [{% for item in graph_list %}'{{ item[2] }}'{{ "," if not loop.last }}{% endfor %}],
         datasets: [
         {
           label: 'Satisfaction',
@@ -62,7 +73,7 @@
           borderColor: "#ffcdd2",
 
           data: [
-          {% for item in history_list %}
+          {% for item in graph_list %}
           {{ item[4] }} {{ "," if not loop.last }}
           {% endfor %}
           ],

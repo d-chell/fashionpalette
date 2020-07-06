@@ -41,7 +41,7 @@ def history():
     if flask.request.method == 'POST':
         date = flask.request.form["date"]
         color = flask.request.form["color"]
-        opinion = flask.request.form["opinon"]
+        opinion = flask.request.form["opinion"]
         comments = flask.request.form["comments"]
         db.create_log(flask_login.current_user.id, date, color, opinion, comments)
     else:
@@ -50,13 +50,20 @@ def history():
             db.delete_log(hid)
         except Exception as e:
             print(e)
-    return flask.render_template("history.html", history_list=db.get_history(flask_login.current_user.id))
+    history_list = db.get_history(flask_login.current_user.id)
+    if history_list[0]:
+        history_list.sort(reverse=True, key=lambda tup: tup[2])
+        graph_list = history_list.copy()
+        graph_list.sort(key=lambda tup: tup[2])
+    return flask.render_template("history.html", history_list=history_list, graph_list=graph_list)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if flask.request.method == 'POST':
         user = flask.request.form["username"]
         passw = flask.request.form["passwordname"].encode('utf-8')
+        if not passw:
+            return("Please enter a password.")
         try:
             uid = db.get_uid(user)
         except:
