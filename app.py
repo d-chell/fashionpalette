@@ -2,11 +2,21 @@ import flask
 import flask_login
 from urllib.parse import urlparse, urljoin
 import db
+import os
+import color
 import bcrypt
+import base64
+from werkzeug.utils import secure_filename
 app = flask.Flask(__name__)
-app.secret_key = 'ee00d0998aikwdpoka--2-2-eeoddkkd'
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+app.secret_key = os.urandom(24)
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
+
+ALLOWED_EXTENSIONS = {'jpg', 'jpeg'}
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @login_manager.user_loader
 def load_user(uid):
@@ -30,10 +40,57 @@ def home():
 def wiki():
     return flask.render_template("wiki.html")
 
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
 @flask_login.login_required
 def myprofile():
-    return flask.render_template("myprofile.html")
+    if flask.request.method == 'POST':
+        if 'file' in flask.request.files:
+            file = flask.request.files['file']
+            if file.filename == '':
+                flask.flash('No selected file')
+                return flask.redirect(flask.request.url)
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                base64file = base64.b64encode(file.read())
+                base64file = base64file.decode("ascii")
+                db.store_profile(flask_login.current_user.id, base64file)
+                print(filename, file.read())
+        else:
+            try:
+                skintone = float(flask.request.form["skintone"])
+                skincolor = float(flask.request.form["skincolor"])
+                eyetone = float(flask.request.form["eyetone"])
+                eyecolor = float(flask.request.form["eyecolor"])
+                hairtone = float(flask.request.form["hairtone"])
+                hairshade = float(flask.request.form["hairshade"])
+                haircolor = float(flask.request.form["haircolor"])
+            except:
+                return("Invalid data.")
+            print("skintone", skintone, "skincolor", skincolor, "eyetone", eyetone, "eyecolor", eyecolor, "hairtone", hairtone, "hairshade", hairshade, "haircolor", haircolor)
+            if skintone < 0:
+                skincolor = 6 - skincolor
+            skin = skintone * skincolor
+            if eyetone < 0:
+                eyecolor = 7 - eyecolor
+            eyes = eyetone * eyecolor
+            hair = hairtone * haircolor * hairshade
+            db.store_palette(flask_login.current_user.id, skin, eyes, hair)
+    palette = db.get_palette(flask_login.current_user.id)
+    if palette:
+        skin, eyes, hair = palette
+        print("skin", skin, "eyes", eyes, "hair", hair)
+        y = color.get_y(skin, eyes, hair)
+        print("y", y)
+        try:
+            modifier, season = color.get_season(abs(hair)-6, y)
+            result = modifier + " " + season
+        except Exception as e:
+            print(e)
+            result = "unknown, please try again."
+    else:
+        result = "You have not submitted your natural palette yet!"
+    profilepic = db.get_profile(flask_login.current_user.id)
+    return flask.render_template("myprofile.html", result=result, profilepic=profilepic)
 
 @app.route('/history', methods=['GET', 'POST'])
 @flask_login.login_required
@@ -51,6 +108,7 @@ def history():
         except Exception as e:
             print(e)
     history_list = db.get_history(flask_login.current_user.id)
+    graph_list = []
     if history_list[0]:
         history_list.sort(reverse=True, key=lambda tup: tup[2])
         graph_list = history_list.copy()
@@ -70,9 +128,7 @@ def login():
             passwhash = bcrypt.hashpw(passw, bcrypt.gensalt())
             db.create_user(user, passwhash)
             uid = db.get_uid(user)
-        print(uid)
         user_object = load_user(uid)
-        print(user_object)
         if not db.login_auth(uid, passw):
             return("Invalid password.")
         flask_login.login_user(user_object)

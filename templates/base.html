@@ -16,18 +16,18 @@
       </div>
       <div id="navlinks">
         <div>
-          <a href="/wiki">
+          <a class="{% block wiki %}{% endblock %}" href="/wiki">
             Wiki
           </a>
         </div>
         {% if current_user.is_authenticated %}
         <div>
-          <a href="/profile">
+          <a class="{% block profile %}{% endblock %}" href="/profile">
             Profile
           </a>
         </div>
         <div>
-          <a href="/history">
+          <a class="{% block history %}{% endblock %}" href="/history">
             History
           </a>
         </div>
@@ -38,7 +38,7 @@
         </div>
         {% else %}
         <div>
-          <a href="/login">
+          <a class="{% block login %}{% endblock %}" href="/login">
             Login
           </a>
         </div>
