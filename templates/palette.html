@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block palette %}active{% endblock %}
+{% block content %}
+<h4>Your Palette</h4>
+<h5>{{ big_dict[link][0] }}</h5>
+  <div class="row">
+    <div class="seven columns">
+      <p>{{ big_dict[link][1] | safe }}</p>
+      <p>{{ big_dict[link][2] | safe }}</p>
+    </div>
+    <div class="five columns">
+      <div class="polaroid">
+        <img src="/static/{{ link }}.jpg" alt="{{ link }}" style="width:100%">
+        <div class="polar">
+          <p>{{ big_dict[link][0] }} Palette</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

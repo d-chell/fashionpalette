@@ -4,6 +4,7 @@ from urllib.parse import urlparse, urljoin
 import db
 import os
 import color
+import descriptions
 import bcrypt
 import base64
 from werkzeug.utils import secure_filename
@@ -38,7 +39,7 @@ def home():
 
 @app.route('/wiki')
 def wiki():
-    return flask.render_template("wiki.html")
+    return flask.render_template("wiki.html", big_dict = descriptions.get_descriptions())
 
 @app.route('/profile', methods=['GET', 'POST'])
 @flask_login.login_required
@@ -84,13 +85,21 @@ def myprofile():
         try:
             modifier, season = color.get_season(abs(hair)-6, y)
             result = modifier + " " + season
+            link = modifier + season
+            link = link.lower()
+            print(link)
         except Exception as e:
             print(e)
             result = "unknown, please try again."
+            link = ""
     else:
-        result = "unknown, as you have not submitted your information yet!"
+        result = "unknown, as you have not submitted your information yet"
     profilepic = db.get_profile(flask_login.current_user.id)
-    return flask.render_template("myprofile.html", result=result, profilepic=profilepic)
+    return flask.render_template("myprofile.html", result=result, profilepic=profilepic, link=link)
+
+@app.route('/wiki/<link>')
+def palette(link):
+    return flask.render_template("palette.html", link=link, big_dict=descriptions.get_descriptions())
 
 @app.route('/history', methods=['GET', 'POST'])
 @flask_login.login_required
