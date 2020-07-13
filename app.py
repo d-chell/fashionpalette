@@ -94,6 +94,7 @@ def myprofile():
             link = ""
     else:
         result = "unknown, as you have not submitted your information yet"
+        link = ""
     profilepic = db.get_profile(flask_login.current_user.id)
     return flask.render_template("myprofile.html", result=result, profilepic=profilepic, link=link)
 
