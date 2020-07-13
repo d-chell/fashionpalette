@@ -88,7 +88,7 @@ def myprofile():
             print(e)
             result = "unknown, please try again."
     else:
-        result = "You have not submitted your natural palette yet!"
+        result = "unknown, as you have not submitted your information yet!"
     profilepic = db.get_profile(flask_login.current_user.id)
     return flask.render_template("myprofile.html", result=result, profilepic=profilepic)
 
