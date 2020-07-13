@@ -149,4 +149,4 @@ def logout():
     return flask.redirect(flask.url_for('home'))
 
 # db.reset()
-app.run(debug=True)
+app.run(debug=False, host="0.0.0.0", port="4456")
