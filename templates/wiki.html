@@ -2,7 +2,7 @@
 {% block wiki %}active{% endblock %}
 {% block content %}
 <h4>Wiki</h4>
-<p>This wiki was built using inventyourimage.com's color concept palettes. We chose these because they clearly represent what colors look best in clothing, as well as show what jewelry tones match. (Some palettes are better with gold toned jewelry, some with silver, and some with both. Newer jewelry tones such as rose-gold would be great for neutral or cool palettes.)</p>
+<p>This wiki was built using <a href="http://expressingyourtruth.blogspot.com/2013/02/invent-your-image.html">Invent Your Image</a>, <a href="https://www.kettlewellcolours.co.uk/us">Kettlewell</a>, <a href="https://theconceptwardrobe.com/colour-analysis-comprehensive-guides/complete-seasonal-guides">The Concept Wardrobe</a>, and <a href="http://www.whattowearhowtodress.com/colour-analysis/">What to Wear, How to Dress</a>. I chose these website because they clearly represent what colors look best for each palette and include helpful information such as: which palettes are better with gold versus silver toned jewelry; what patterns would look best on you; and how to analyse color.</p>
 {% for key, value in big_dict.items() %}
 <h5>{{ value[0] }}</h5>
 <div class="row">
@@ -13,7 +13,7 @@
     <div class="polaroid">
       <img src="/static/{{ key }}.jpg" alt="{{ value[0] }}" style="width:100%"/>
       <div class="polar">
-        <p style="font-size:1.2rem"> right click > view image</p>
+        <p style="font-size:1.2rem"> right click > view image to zoom</p>
       </div>
     </div>
   </div>

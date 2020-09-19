@@ -1,20 +1,47 @@
 {% extends 'base.html' %}
 {% block palette %}active{% endblock %}
 {% block content %}
+<script type="text/javascript">
+  function toggle_visibility(id) {
+    var e = document.getElementById(id);
+    if(e.style.display == 'block')
+    e.style.display = 'none';
+    else
+    e.style.display = 'block';
+  }
+</script>
+<noscript>
+  <style>
+    div {
+      display:block !important;
+    }
+  </style>
+</noscript>
 <h4>Your Palette</h4>
 <h5>{{ big_dict[link][0] }}</h5>
-  <div class="row">
-    <div class="seven columns">
-      <p>{{ big_dict[link][1] | safe }}</p>
-      <p>{{ big_dict[link][2] | safe }}</p>
-    </div>
-    <div class="five columns">
-      <div class="polaroid">
-        <img src="/static/{{ link }}.jpg" alt="{{ link }}" style="width:100%">
-        <div class="polar">
-          <p>{{ big_dict[link][0] }} Palette</p>
-        </div>
+<div class="row">
+  <div class="seven columns">
+    <p>{{ big_dict[link][1] | safe }}</p>
+    <p>{{ big_dict[link][2] | safe }}</p>
+  </div>
+  <div class="five columns">
+    <div class="polaroid">
+      <img src="/static/{{ link }}.jpg" alt="{{ link }}" style="width:100%">
+      <div class="polar">
+        <p>{{ big_dict[link][0] }} Palette</p>
       </div>
     </div>
   </div>
+</div>
+<div class="row">
+  <div class="six columns">
+    <button onclick="toggle_visibility('profilebutton'); return false"> View makeup recommendations</button>
+    <div id="profilebutton" style="display:none">
+      {{ big_dict[link][3] }}
+    </div>
+  </div>
+  <div class="six columns">
+    Descriptions brought to you in part by <a href="https://anuschkarees.com/blog/2013/09/24/colour-analysis-part-i-finding-your-type">Anusch Karees</a>, <a href="https://www.headcovers.com/resources/beauty/how-to-find-your-color-season/">headcovers.com</a>, <a href="https://thelaurieloo.com/blog/seasonal-color-analysis">Laurie Loo</a>
+  </div>
+</div>
 {% endblock %}
