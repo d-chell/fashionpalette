@@ -1,0 +1,57 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+#container {
+  height: 100%;
+  width: 100%;
+
+}
+
+#product-svg {
+  position: relative;
+  z-index: 2;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  mix-blend-mode: multiply;
+}
+
+#product-shape {
+  fill: #DBED64;
+}
+
+#background-image {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 1;
+}
+
+.colors {
+  display: flex;
+  bottom: 2em;
+  right: 2em;
+  z-index: 3;
+}
+
+.Pcolor {
+  height: 36px;
+  width: 36px;
+  margin-left: 0.5em;
+  border-radius: 18px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+  border: 2px solid #aaa;
+  cursor: pointer;
+}
